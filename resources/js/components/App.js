@@ -6,7 +6,10 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import NewBook from './Newbook';
+import { ConfigProvider } from 'antd';
+import NewBook from './NewBook';
+import 'antd/dist/antd.css';
+
 function App() {
     return (
         <Router>
@@ -26,5 +29,9 @@ function App() {
 export default App;
 
 if (document.getElementById('App')) {
-    ReactDOM.render(<App />, document.getElementById('App'));
+    ReactDOM.render(
+        <ConfigProvider direction="rtl">
+            <App />
+        </ConfigProvider>
+        , document.getElementById('App'));
 }
