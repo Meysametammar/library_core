@@ -512,12 +512,12 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.com/kmtqom/search-book-by-isbn.git",
-                "reference": "1ae3d6a0994e55d58db2d59ecc51c4c145fd715a"
+                "reference": "d1d545a08f25df02747ed3b05a4f9cc7966ba172"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/kmtqom%2Fsearch-book-by-isbn/repository/archive.zip?sha=1ae3d6a0994e55d58db2d59ecc51c4c145fd715a",
-                "reference": "1ae3d6a0994e55d58db2d59ecc51c4c145fd715a",
+                "url": "https://gitlab.com/api/v4/projects/kmtqom%2Fsearch-book-by-isbn/repository/archive.zip?sha=d1d545a08f25df02747ed3b05a4f9cc7966ba172",
+                "reference": "d1d545a08f25df02747ed3b05a4f9cc7966ba172",
                 "shasum": ""
             },
             "require": {
@@ -542,7 +542,7 @@
                 }
             ],
             "description": "get book information by ISBN. powerd by nlai and book.ir",
-            "time": "2020-05-04T09:17:35+00:00"
+            "time": "2020-05-04T12:29:24+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

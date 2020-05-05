@@ -18,7 +18,6 @@ export default class NewBook extends React.Component {
             },
             isbn: "",
             checkStatus: false,
-            disableSubmit: true
         };
         this.onIsbnChange = this.onIsbnChange.bind(this);
         this.onCheck = this.onCheck.bind(this);
@@ -46,7 +45,7 @@ export default class NewBook extends React.Component {
             .then(book => {
                 console.log("there");
                 if (typeof book.ok === typeof true && book.ok === true)
-                    this.setState({ book: book, disableSubmit: false });
+                    this.setState({ book: book, checkStatus: true });
                 else
                     console.log(book);
             })
@@ -55,6 +54,7 @@ export default class NewBook extends React.Component {
 
 
     onSubmit(e) {
+        console.log("HERE");
         if (!this.state.checkStatus)
             return null;
         fetch('api/books/', {
@@ -77,7 +77,14 @@ export default class NewBook extends React.Component {
 
 
     onReset(e) {
-        this.setState({ isbn: "" });
+        this.setState({
+            book: {
+                picture: "",
+                detail: []
+            },
+            isbn: "",
+            checkStatus: false,
+        });
     }
 
 
@@ -104,7 +111,7 @@ export default class NewBook extends React.Component {
                             </Form.Item>
                             <Form.Item >
                                 <Button onClick={this.onCheck} type="primary">Cehck</Button>&nbsp;
-                                <Button onClick={this.onSubmit} type="primary" disabled={this.state.disableSubmit}>Submit</Button>&nbsp;
+                                <Button onClick={this.onSubmit} type="primary" >Submit</Button>&nbsp;
                                 <Button onClick={this.onReset} type="danger">Refresh</Button>
                             </Form.Item>
                         </Form>

@@ -17,10 +17,11 @@ class SearchBookByIsbn extends Controller
      */
     public function __invoke($_ISBN)
     {
-        $ketabir = new Ketabir();
-        $book_picture = $ketabir->get_book_picture_by_isbn($_ISBN);
-        $opac_nlai = new OpacNlai();
-        $book_detail = $opac_nlai->get_book_detail($_ISBN);
+        $ketabir = new Ketabir($_ISBN);
+        $book_picture = $ketabir->book_picture;
+        $book_detail = $ketabir->book_detail;
+        // $opac_nlai = new OpacNlai();
+        // $book_detail = $opac_nlai->get_book_detail($_ISBN);
         return [
             "ok" => true,
             "picture" => $book_picture,

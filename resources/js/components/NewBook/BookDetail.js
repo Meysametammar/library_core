@@ -21,7 +21,7 @@ export default class BookDetail extends React.Component {
                 <Row>
                     <img src={this.props.book.picture} />
                 </Row>
-                {
+                {/* {
                     (typeof this.props.book.detail === typeof []) ?
                         this.props.book.detail.map((element, i) => {
                             <Row key={i}>
@@ -40,7 +40,7 @@ export default class BookDetail extends React.Component {
                             {console.log(this.props.book.detail)}
                             <h1>HI</h1>
                         </center>
-                }
+                } */}
             </div>
         );
     }
