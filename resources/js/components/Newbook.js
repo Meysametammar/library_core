@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Layout, Row, Col,
     Form, Input, Button, Checkbox,
+    Spin, notification
 } from 'antd';
 
 import BookDetail from './NewBook/BookDetail';
@@ -18,17 +19,20 @@ export default class NewBook extends React.Component {
             },
             isbn: "",
             checkStatus: false,
+            loading: false,
         };
         this.onIsbnChange = this.onIsbnChange.bind(this);
         this.onCheck = this.onCheck.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onReset = this.onReset.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
 
 
 
-    onCheck(e) {
+    onCheck() {
+        this.setState({ loading: true });
         if (this.state.isbn == "") {
             return null;
         }
@@ -44,19 +48,45 @@ export default class NewBook extends React.Component {
             .then(res => { return res.json(); })
             .then(book => {
                 console.log("there");
-                if (typeof book.ok === typeof true && book.ok === true)
-                    this.setState({ book: book, checkStatus: true });
-                else
-                    console.log(book);
+                if (typeof book.ok === typeof true && book.ok === true) {
+                    this.setState({ book: book, checkStatus: true, loading: false });
+                    notification.success({
+                        message: 'جستجو با موفقیت انجام شد.',
+                        placement: 'bottomRight',
+                        bottom: 50,
+                        duration: 3,
+                        rtl: true,
+                    });
+                }
+                else {
+                    this.setState({ loading: false });
+                    notification.error({
+                        message: 'يافت نشد',
+                        placement: 'bottomRight',
+                        bottom: 50,
+                        duration: 3,
+                        rtl: true,
+                    });
+                }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                this.setState({ loading: false });
+                notification.error({
+                    message: 'خطای سرور',
+                    placement: 'bottomRight',
+                    bottom: 50,
+                    duration: 3,
+                    rtl: true,
+                });
+            });
     }
 
 
-    onSubmit(e) {
-        console.log("HERE");
+    onSubmit() {
         if (!this.state.checkStatus)
             return null;
+        this.setState({ loading: true, checkStatus: false });
         fetch('api/books/', {
             method: 'post',
             /* headers are important*/
@@ -69,14 +99,43 @@ export default class NewBook extends React.Component {
         })
             .then(res => { return res.json(); })
             .then(book => {
-                console.log(book)
+                this.setState({ loading: false });
+                console.log(book);
+                if (book.ok === true) {
+                    notification.success({
+                        message: 'کتاب با موفقیت اضافه‌شد',
+                        placement: 'bottomRight',
+                        bottom: 50,
+                        duration: 3,
+                        rtl: true,
+                    })
+                } else {
+                    notification.error({
+                        message: 'ثبت نمیشه',
+                        placement: 'bottomRight',
+                        bottom: 50,
+                        duration: 3,
+                        rtl: true,
+                    });
+
+                }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                this.setState({ loading: false });
+                notification.error({
+                    message: 'خطای سرور',
+                    placement: 'bottomRight',
+                    bottom: 50,
+                    duration: 3,
+                    rtl: true,
+                });
+            });
 
     }
 
 
-    onReset(e) {
+    onReset() {
         this.setState({
             book: {
                 picture: "",
@@ -84,6 +143,7 @@ export default class NewBook extends React.Component {
             },
             isbn: "",
             checkStatus: false,
+            loading: false
         });
     }
 
@@ -92,6 +152,20 @@ export default class NewBook extends React.Component {
         this.setState({ isbn: e.target.value });
     }
 
+
+    onKeyDown(e) {
+        if (e.key !== 'Enter') {
+            return null;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.state.checkStatus) {
+            this.onSubmit();
+        }
+        else {
+            this.onCheck();
+        }
+    }
 
 
     render() {
@@ -103,19 +177,31 @@ export default class NewBook extends React.Component {
                     </Col>
                     <Col span={10}>
                         <br /><br /><br />
-                        <Form
-                            layout="horizontal"
-                        >
-                            <Form.Item label="شابک">
-                                <Input value={this.state.isbn} onChange={this.onIsbnChange} placeholder="964-7956-27-0" />
-                            </Form.Item>
-                            <Form.Item >
-                                <Button onClick={this.onCheck} type="primary">Cehck</Button>&nbsp;
+                        <Row>
+                            <Form
+                                layout="horizontal"
+                            >
+                                <Form.Item label="شابک">
+                                    <Input
+                                        value={this.state.isbn}
+                                        onChange={this.onIsbnChange}
+                                        placeholder="964-7956-27-0"
+                                        onKeyDown={this.onKeyDown}
+                                    />
+                                </Form.Item>
+                                <Form.Item >
+                                    <Button onClick={this.onCheck} type="primary">Cehck</Button>&nbsp;
                                 <Button onClick={this.onSubmit} type="primary" >Submit</Button>&nbsp;
                                 <Button onClick={this.onReset} type="danger">Refresh</Button>
-                            </Form.Item>
-                        </Form>
+                                </Form.Item>
+                            </Form>
+                        </Row>
+                        <br /><br />
+                        <Row>
+                            {this.state.loading && <Spin />}
+                        </Row>
                     </Col>
+
                 </Row>
             </div >
         );
