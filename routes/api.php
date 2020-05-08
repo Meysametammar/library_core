@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::apiResource('books', 'Api\BookController');
-Route::get('/book/search_book_by_isbn/{ISBN}', "Api\SearchBookByIsbn");
+Route::apiResource('books', 'API\BookController');
+Route::get('/book/search_book_by_isbn/{ISBN}', "API\SearchBookByIsbn");
