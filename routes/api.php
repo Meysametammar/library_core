@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::apiResource('books', 'API\BookController');
-Route::get('/book/search_book_by_isbn/{ISBN}', "API\SearchBookByIsbn");
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

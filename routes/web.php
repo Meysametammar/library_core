@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::view('/{path?}', 'welcome')
-    ->where('path', '.*')
-    ->name('react');
+Route::get('/', function () {
+    return view('welcome');
+});
