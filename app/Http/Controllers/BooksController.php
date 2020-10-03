@@ -14,7 +14,8 @@ class BooksController extends Controller
      */
     public function index()
     {
-        //
+        $books = Books::all();
+        return view("pages.book.index")->with('books', $books);
     }
 
     /**
@@ -24,7 +25,7 @@ class BooksController extends Controller
      */
     public function create()
     {
-        //
+        return view("pages.book.create");
     }
 
     /**
@@ -35,7 +36,6 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -44,9 +44,10 @@ class BooksController extends Controller
      * @param  \App\Models\Books  $books
      * @return \Illuminate\Http\Response
      */
-    public function show(Books $books)
+    public function show($id)
     {
-        //
+        $book = Books::find($id);
+        return view("pages.book.show")->with("book", $book);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Books;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class BooksFactory extends Factory
 {
@@ -22,7 +23,9 @@ class BooksFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'isbn' => Str::random(10),
+            'picture' => "NoImage.jpg",
         ];
     }
 }
