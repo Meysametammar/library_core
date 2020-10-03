@@ -15,7 +15,7 @@
                     {{Form::label('isbn', "ISBN")}}
                     <div class="row">
                         <div class="col-9">
-                            {{Form::text('isbn', '', ['id' => 'ISBN','class' => 'form-control', 'placeholder' => '121212121'])}}
+                            {{Form::text('isbn', '', ['id' => 'ISBN','class' => 'form-control', 'placeholder' => '964-2793-03-2'])}}
 
                         </div>
                         <div class="col-3">
