@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
     <h3>create new book</h3>
 
     {!! Form::open(['action' => 'App\Http\Controllers\BooksController@store', 'method' => 'POST']) !!}
@@ -9,7 +8,7 @@
             <div class="col-6">
                 <div class="form-group">
                     {{Form::label('name', "Name")}}
-                    {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Good Book'])}}
+                    {{Form::text('name', '', ['id' => "title",'class' => 'form-control', 'placeholder' => 'Good Book'])}}
                 </div>
                 <div class="form-group">
                     {{Form::label('isbn', "ISBN")}}
@@ -19,19 +18,16 @@
 
                         </div>
                         <div class="col-3">
-                            <button type="button" class="btn btn-primary w-100 h-100" onclick="fillByISBN()">Check ISBN</button>
+                            <button id="IsbnButton" type="button" class="btn btn-primary w-100 h-100 " onclick="fillByISBN()">Check ISBN</button>
                         </div>
                 </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-2">
                         {{Form::label('image', "Image")}}
-                    </div>
-                    <div class="col-6">
-                        {{Form::file('image')}}
-                    </div>
+                        {{Form::text('image', '', ['id' => 'image','class' => 'form-control', 'placeholder' => 'http://example.com/book.jpg'])}}
                     <div class="col-12">
-                        <img>
+                        <br>
+                        <img id="picture">
                     </div>
                 </div>
                 <br>
@@ -41,13 +37,37 @@
             </div>    
         </div>    
     {!! Form::close() !!}
-</div>
-@endsection
-
 
 <script>
-    const fillByISBN = ()=>{
-        const isbn = document.getElementById('ISBN').value;
-        console.log(isbn);
+// show image if input has any value
+const image = document.getElementById("image").value;
+document.getElementById("picture").src = image;
+
+const loadingHandle = (loading) => {
+    if (loading) {
+        document.getElementById("IsbnButton").innerHTML =
+            '<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>';
+    } else {
+        document.getElementById("IsbnButton").innerHTML = "Check ISBN";
     }
+};
+
+const fillByISBN = () => {
+    loadingHandle(true);
+    const isbn = document.getElementById("ISBN").value;
+    fetch(`/api/isbn/${isbn}`)
+        .then((res) => res.json())
+        .then((book) => {
+            loadingHandle(false);
+
+            // fill title
+            document.getElementById("title").value = book.data.title;
+            // fill picture
+            document.getElementById("picture").src = book.data.picture;
+            document.getElementById("image").value = book.data.picture;
+        });
+    console.log(isbn);
+};
+
 </script>
+@endsection

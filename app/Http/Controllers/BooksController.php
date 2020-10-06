@@ -36,6 +36,12 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'isbn' => 'required',
+            'image' => 'required',
+        ]);
+        return $request;
     }
 
     /**

@@ -1,1 +1,2 @@
-require('./bootstrap');
+import "./bootstrap";
+import "./scripts/create_scripts";

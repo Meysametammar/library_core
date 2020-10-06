@@ -22,12 +22,13 @@
         @include('inc.nav')
 
         <main class="py-4">
-            @yield('content')
+            <div class="container">
+                @include('inc.messages')
+                @yield('content')
+            </div>
         </main>
     </div>
-    
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
 </body>
 </html>

@@ -18,9 +18,30 @@ class BookByISBN extends Controller
     public function show($_isbn)
     {
         $ketabir = new Ketabir($_isbn);
-        $opac = new OpacNlai();
-        $opac_detail = $opac->get_book_detail($_isbn);
-        $status_code = empty($ketabir->book_picture) ? false : true;
-        return ["ok" => $status_code, "ketabir" => (array) $ketabir, "opac" => $opac_detail];
+        // $opac = new OpacNlai();
+        // $opac_detail = $opac->get_book_detail($_isbn);
+
+        if (empty($ketabir->book_picture)) {
+            return $this->error("book picture undefined");
+        }
+        if (!isset($ketabir->book_detail["title"])) {
+            return $this->error("book title undefined");
+        }
+
+        return [
+            "ok" => true,
+            "data" => [
+                "title" => $ketabir->book_detail["title"],
+                "picture" => $ketabir->book_picture,
+            ],
+        ];
+    }
+
+    public function error($_message)
+    {
+        return [
+            "ok" => false,
+            "message" => $_message,
+        ];
     }
 }
