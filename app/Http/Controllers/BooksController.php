@@ -41,7 +41,12 @@ class BooksController extends Controller
             'isbn' => 'required',
             'image' => 'required',
         ]);
-        return $request;
+        $book = new Books();
+        $book->name = $request->input('name');
+        $book->isbn = $request->input('isbn');
+        $book->picture = $request->input('image');
+        $book->save();
+        return redirect('/book');
     }
 
     /**
